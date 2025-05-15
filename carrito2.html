@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito de Compras</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    
+    <div class="container mt-5">
+        <h2>Carrito de Compras</h2>
+        <ul id="cart-items" class="list-group"></ul>
+        <button id="clear-cart-btn" class="btn btn-danger mt-3">Vaciar Carrito</button>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const clearCartButton = document.getElementById('clear-cart-btn');
+
+            // Mostrar elementos del carrito desde localStorage
+            const showCartItems = () => {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+                cartItemsContainer.innerHTML = ''; // Limpiar la lista antes de mostrar los nuevos elementos
+
+                cart.forEach(item => {
+                    const listItem = document.createElement('li');
+                    listItem.classList.add('list-group-item');
+                    listItem.textContent = `${item.name} - $${item.price} x ${item.quantity}`;
+                    cartItemsContainer.appendChild(listItem);
+                });
+            };
+
+            // Mostrar los elementos del carrito al cargar la página
+            showCartItems();
+
+            // Vaciar el carrito al hacer clic en el botón "Vaciar Carrito"
+            clearCartButton.addEventListener('click', () => {
+                localStorage.removeItem('cart'); // Eliminar el carrito del localStorage
+                showCartItems(); // Actualizar la vista del carrito vacío
+            });
+        });
+    </script>
+</body>
+</html>
